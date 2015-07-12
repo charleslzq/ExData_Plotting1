@@ -1,0 +1,12 @@
+data1 <- read.table("household_power_consumption.txt", header = TRUE, sep=";",stringsAsFactors = FALSE);
+data1$Date<-as.Date(data1$Date, "%d/%m/%Y");
+data2007<-data1[data1$Date>="2007-02-01"&data1$Date<="2007-02-02",];
+data2007$Global_active_power<-as.numeric(data2007$Global_active_power);
+data2007$DateTime<-paste(data2007$Date,data2007$Time);
+data2007$DateTime<-strptime(data2007$DateTime,"%d/%m/%Y %H:%M:%S");
+png(filename="plot3.png");
+plot(data2007$Sub_metering_1,col="grey", type="l", ylim=c(0,40), ylab="Energy sub metering");
+lines(data2007$Sub_metering_2, col="red");
+lines(data2007$Sub_metering_3, col="blue");
+legend("topright",pch=1,col=c("grey","red","blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"));
+dev.off();

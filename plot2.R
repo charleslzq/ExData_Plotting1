@@ -1,0 +1,11 @@
+data1 <- read.table("household_power_consumption.txt", header = TRUE, sep=";",stringsAsFactors = FALSE);
+data1$DateTime<-paste(data1$Date,data1$Time, sep=" ");
+library(lubridate);
+data1$DateTime<-dmy_hms(data1$DateTime);
+data1$Date<-as.Date(data1$Date, "%d/%m/%Y");
+data2007<-data1[data1$Date>="2007-02-01"&data1$Date<="2007-02-02",];
+data2007$Global_active_power<-as.numeric(data2007$Global_active_power);
+png(filename="plot2.png");
+data2007$wday<-wday(data2007$DateTime,label=TRUE);
+plot(data2007$Global_active_power, type="l", ylab="Global Active Power(kilowatts)", xlab="");
+dev.off();
